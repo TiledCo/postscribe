@@ -122,7 +122,7 @@ function runStream(el, html, options) {
   });
 
   // Override window.onerror
-  const oldOnError = active.win.onerror || doNothing;
+  const oldOnError = active?.win?.onerror || doNothing;
 
   // This works together with the try/catch around WriteStream::insertScript
   // In modern browsers, exceptions in tag scripts go directly to top level
