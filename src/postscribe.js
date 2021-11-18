@@ -1,11 +1,10 @@
-import WriteStream from './write-stream';
-import * as utils from './utils';
+import WriteStream from "./write-stream";
+import * as utils from "./utils";
 
 /**
  * A function that intentionally does nothing.
  */
-function doNothing() {
-}
+function doNothing() {}
 
 /**
  * Available options and defaults.
@@ -48,14 +47,14 @@ const OPTIONS = {
    *
    * @param {Object} tok The token
    */
-  beforeWriteToken: tok => tok,
+  beforeWriteToken: (tok) => tok,
 
   /**
    * Called before writing buffered document.write calls.
    *
    * @param {String} str The string
    */
-  beforeWrite: str => str,
+  beforeWrite: (str) => str,
 
   /**
    * Called when evaluation is finished.
@@ -67,12 +66,14 @@ const OPTIONS = {
    *
    * @param {Error} e The error
    */
-  error(e) { throw new Error(e.msg); },
+  error(e) {
+    throw new Error(e.msg);
+  },
 
   /**
    * Whether to let scripts w/ async attribute set fall out of the queue.
    */
-  releaseAsync: false
+  releaseAsync: false,
 };
 
 let nextId = 0;
@@ -105,7 +106,7 @@ function runStream(el, html, options) {
     close: doc.close,
     open: doc.open,
     write: doc.write,
-    writeln: doc.writeln
+    writeln: doc.writeln,
   };
 
   function write(str) {
@@ -117,9 +118,14 @@ function runStream(el, html, options) {
   Object.assign(doc, {
     close: doNothing,
     open: doNothing,
-    write: (...str) => write(str.join('')),
-    writeln: (...str) => write(str.join('') + '\n')
+    write: (...str) => write(str.join("")),
+    writeln: (...str) => write(str.join("") + "\n"),
   });
+
+  if (!active.win) {
+    console.debug(`Active window removed from DOM`, active);
+    return active;
+  }
 
   // Override window.onerror
   const oldOnError = active.win.onerror || doNothing;
@@ -127,7 +133,7 @@ function runStream(el, html, options) {
   // This works together with the try/catch around WriteStream::insertScript
   // In modern browsers, exceptions in tag scripts go directly to top level
   active.win.onerror = (msg, url, line) => {
-    options.error({msg: `${msg} - ${url}: ${line}`});
+    options.error({ msg: `${msg} - ${url}: ${line}` });
     oldOnError.apply(active.win, [msg, url, line]);
   };
 
@@ -149,8 +155,8 @@ function runStream(el, html, options) {
 
 export default function postscribe(el, html, options) {
   if (utils.isFunction(options)) {
-    options = {done: options};
-  } else if (options === 'clear') {
+    options = { done: options };
+  } else if (options === "clear") {
     queue = [];
     active = null;
     nextId = 0;
@@ -160,7 +166,7 @@ export default function postscribe(el, html, options) {
   options = utils.defaults(options, OPTIONS);
 
   // id selector
-  if ((/^#/).test(el)) {
+  if (/^#/.test(el)) {
     el = window.document.getElementById(el.substr(1));
   } else {
     el = el.jquery ? el[0] : el;
@@ -175,7 +181,7 @@ export default function postscribe(el, html, options) {
       } else {
         args[1] = doNothing;
       }
-    }
+    },
   };
 
   options.beforeEnqueue(args);
@@ -194,5 +200,5 @@ Object.assign(postscribe, {
   // Queue of streams.
   queue,
   // Expose internal classes.
-  WriteStream
+  WriteStream,
 });

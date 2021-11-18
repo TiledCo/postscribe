@@ -4,6 +4,7 @@
   "homepage": "https://krux.github.io/postscribe",
   "bugs": "https://github.com/krux/postscribe/issues",
   "license": "MIT",
+  "version": "2.0.9",
   "repository": {
     "type": "git",
     "url": "git://github.com/krux/postscribe.git"
@@ -28,7 +29,9 @@
   "main": "dist/postscribe.js",
   "browser": "dist/postscribe.js",
   "dependencies": {
-    "prescribe": ">=1.1.2"
+    "@babel/register": "^7.16.0",
+    "prescribe": ">=1.1.2",
+    "webpack-core": "^0.6.9"
   },
   "devDependencies": {
     "babel-core": "6.20.0",
