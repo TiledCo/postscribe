@@ -123,6 +123,7 @@ function runStream(el, html, options) {
   });
 
   if (!active.win) {
+    console.debug(`Active window removed from DOM`, active);
     return active;
   }
 
