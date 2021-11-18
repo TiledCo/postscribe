@@ -4,6 +4,7 @@
   "homepage": "https://krux.github.io/postscribe",
   "bugs": "https://github.com/krux/postscribe/issues",
   "license": "MIT",
+  "version": "2.0.9",
   "repository": {
     "type": "git",
     "url": "git://github.com/krux/postscribe.git"
