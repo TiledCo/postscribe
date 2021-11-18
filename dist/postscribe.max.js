@@ -236,6 +236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  if (!active.win) {
+	    console.debug("Active window removed from DOM", active);
 	    return active;
 	  }
 	
